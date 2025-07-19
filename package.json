@@ -1,0 +1,109 @@
+{
+  "name": "simpl-zip",
+  "version": "1.0.0",
+  "description": "Simple ZIP archiving tool with password protection for easy command-line usage",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "szip": "bin/szip.js",
+    "sunzip": "bin/sunzip.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run chmod",
+    "dev": "tsc --watch",
+    "test": "mocha tests/**/*.test.js --timeout 10000",
+    "test:coverage": "nyc --reporter=text --reporter=html mocha tests/**/*.test.js",
+    "test:integration": "npm run build && node bin/szip.js -test",
+    "lint": "eslint src/**/*.ts bin/**/*.js --fix-dry-run",
+    "lint:fix": "eslint src/**/*.ts bin/**/*.js --fix",
+    "prepublishOnly": "npm run clean && npm run build && npm run test && npm run security",
+    "postinstall": "node scripts/postinstall.js || echo 'Postinstall script not found'",
+    "prepack": "npm run build",
+    "clean": "rimraf dist coverage .nyc_output",
+    "docs": "typedoc src --out docs --excludePrivate",
+    "security": "npm audit --audit-level moderate && npm run validate",
+    "validate": "node scripts/validate-build.js",
+    "chmod": "node scripts/fix-permissions.js",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "health-check": "node bin/szip.js --version && echo 'Health check passed'"
+  },
+  "keywords": [
+    "zip",
+    "archive",
+    "compression",
+    "cli",
+    "password",
+    "cross-platform",
+    "security",
+    "encryption",
+    "hash",
+    "backup"
+  ],
+  "author": {
+    "name": "Kozosvyst Stas",
+    "email": "dev@sxscli.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StasX-Official/szip.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StasX-Official/szip/issues"
+  },
+  "homepage": "https://github.com/StasX-Official/szip#readme",
+  "dependencies": {
+    "archiver": "^6.0.1",
+    "yauzl": "^3.0.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "chalk": "^4.1.2",
+    "node-stream-zip": "^1.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/archiver": "^6.0.2",
+    "@types/yauzl": "^2.10.3",
+    "@types/inquirer": "^9.0.7",
+    "@types/mocha": "^10.0.6",
+    "typescript": "^5.3.0",
+    "mocha": "^10.2.0",
+    "chai": "^4.4.1",
+    "nyc": "^15.1.0",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.7",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "files": [
+    "bin/",
+    "dist/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "scripts/postinstall.js"
+  ],
+  "preferGlobal": true,
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/StasX-Official"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
